@@ -1,24 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: devops-portfolio
-  namespace: default
-  labels:
-    app: devops-portfolio
+  name: bureaucracy-helper-service
 spec:
   type: LoadBalancer
-  selector:
-    app: devops-portfolio
   ports:
-    - name: http
-      port: 80
-      targetPort: 3000
-      protocol: TCP
-    - name: https
-      port: 443
-      targetPort: 3000
-      protocol: TCP
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 10800
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: bureaucracy-helper

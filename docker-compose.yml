@@ -1,74 +1,18 @@
-<<<<<<< HEAD
-version: '3.9'
+version: '3.8'
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: devops-portfolio
+    container_name: german-bureaucracy-helper
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
-      - NODE_ENV=production
-      - VITE_API_URL=http://localhost:3000
-    volumes:
-      - ./dist:/app/dist:ro
+      NODE_ENV: production
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'node', '-e', "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 5s
-    networks:
-      - devops-network
-
-  # Optional: nginx reverse proxy
-=======
-version: '3.8'
-
-services:
-  web:
-    build: .
-    expose:
-      - "5000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
-
->>>>>>> devops-portfolio
-  nginx:
-    image: nginx:alpine
-    container_name: devops-nginx
-    ports:
-<<<<<<< HEAD
-      - '80:80'
-      - '443:443'
-=======
-      - "80:80"
->>>>>>> devops-portfolio
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl:/etc/nginx/ssl:ro
-    depends_on:
-<<<<<<< HEAD
-      - app
-    restart: unless-stopped
-    networks:
-      - devops-network
-
-networks:
-  devops-network:
-    driver: bridge
-
-volumes:
-  app-data:
-=======
-      web:
-        condition: service_healthy
-    restart: unless-stopped
->>>>>>> devops-portfolio
